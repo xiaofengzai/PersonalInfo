@@ -1,0 +1,17 @@
+server:
+  port: 5566
+
+spring:
+  profiles:
+    active: local
+
+swagger:
+  enabled: true
+
+
+  spring:
+      rabbitmq:
+        host: 127.0.0.1
+        port: 5672
+        username: guest
+        password: guest

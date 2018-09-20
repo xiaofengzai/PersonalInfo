@@ -5,52 +5,27 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
-
-
     <groupId>com.enshub</groupId>
-
     <artifactId>PersonalInfo</artifactId>
-
     <version>0.0.1-SNAPSHOT</version>
-
     <packaging>jar</packaging>
 
-
-
-    <name>chapter-1</name>
-
-    <description>Spring Boot | 第一章：第一个Springboot应用</description>
-
-
-
-    <!-- Springboot的版本，大家选择时，应该选择 RELEASE 版本 -->
+    <name>PersonalInfo</name>
+    <description>PersonalInfo应用</description>
 
     <parent>
-
         <groupId>org.springframework.boot</groupId>
-
         <artifactId>spring-boot-starter-parent</artifactId>
-
         <version>1.5.14.RELEASE</version>
-
         <relativePath/> <!-- lookup parent from repository -->
-
     </parent>
 
-
-
     <properties>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
         <java.version>1.8</java.version>
-
+        <docker.image.prefix>fright</docker.image.prefix>
     </properties>
-
-
 
     <dependencies>
 
@@ -118,7 +93,23 @@
 
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-batch</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
         <!-- 测试包 -->
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
 
@@ -145,6 +136,25 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
 
             </plugin>
+
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <!--<version>0.2.3</version>-->
+                <version>0.4.11</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+
 
         </plugins>
 
